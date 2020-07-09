@@ -11,6 +11,12 @@ class HashTableEntry:
 # Hash table can't have fewer than this many slots
 MIN_CAPACITY = 8
 
+# implemented hashing function
+def djb2(key):
+    hash = 5381
+    for c in key:
+        hash = (hash * 33) + ord(c) # ord() returns the unicode for one character string
+    return hash
 
 class HashTable:
     """
@@ -63,6 +69,7 @@ class HashTable:
         Implement this, and/or FNV-1.
         """
         # Your code here
+        
 
 
     def hash_index(self, key):
