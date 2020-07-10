@@ -106,6 +106,11 @@ class HashTable:
         Implement this.
         """
         # Your code here
+        index = self.hash_index(key)
+        if self.data[index] is None:
+            print("Key not found")
+        else:
+            self.data[index] = None
 
     def get(self, key):
         """
