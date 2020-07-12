@@ -9,18 +9,17 @@ def djb2(key):
         # hash = (( hash * 33) + hash) + ord(char)
     return hash
 
+# s1
 hash_table = [None] * 8
 
-
+#s8 create class HashTable
 class HashTableItem:
     def __init__(self, key, value, next=None):
         self.key = key
         self.value = value
         self.next = next
         
-
-
-
+# s2 create hash function
 def my_hash(s):
     s_utf8 = s.encode()
 
@@ -31,57 +30,85 @@ def my_hash(s):
 
     return total
 
+# s3 insert value into our hash table
 def put(key, value):
+    #s3a hash the key(string) returns some number 
     hashed_key = my_hash(key)
 
+    #s3b make it module to ensure it a valid index within our hash table
     index = hashed_key % len(hash_table)
 
-    # print a warning if we are going to overwrite
+    #7 print a warning if we are going to overwrite
     if hash_table[index] != None:
         print('omg think of the data!')
 
+    #s3c then go to hash_table go to index and insert value
+    # hash_table[index] = value
+    #s8a
     hash_table[index] = HashTableItem(key, value)
 
+    #s3d test  # [None, None, None, None, 'hello world', None, None, None]
+    # put("hello", "hello world")
+    
+# s4 take in a key & responsible for finding that key & returning it to us
 def get(key):
+    #s4a hash it so we can compare hashes
     hashed_key = my_hash(key)
+    #s4b hash will fit in the confine of hash_table
     index = hashed_key % len(hash_table)
 
+    #s8b return value 
     table_item = hash_table[index]
 
+    #s8c
     return table_item.value
+    #s4c return value
+    # return table_item[index]
 
+    #s4d test 
+    # print(get("hello"))
+
+# s5 delete 
 def delete(key):
+    #s5a hash the key
     hashed_key = my_hash(key)
+    #s5b find the index by taking th modulo 
     index = hashed_key % len(hash_table)
+    #s5c and set it to None
     hash_table[index] = None
 
 put("hello", "hello world")
 
+#6 caused a collision
 put("olleh", "we didnt start the fire")
 
-print(get("hello"))
+print('GET', get("hello"))
 
 print(hash_table)
 
-delete("hello")
+#s5d test
+# delete("hello")
 print(hash_table)
 
 # [None, None, None, None, 'hello world', 'we didnt start the fire', None, None]
 # [None, None, None, None, None, None, None, None]
 
+#8 What to do inside of put() to handle overwriting
 # open addressing
 ## put in a surrounding/different index
 ## linear probing: find the next available index and put it there
 ## cuckoo probing: if you find something there already, kick it out, it goes to next index
 # double hashing: hash the hash
 # disallow it!
-# chaining
+# chaining using link list
 
+# Chaining example
 '''
 Index  Chain (linked list)
 ----   ---------------
 0      ("qux", 54)  -> None
-1      ("foo", 29)  -> None
+# 1      38 -> 42 -> None
+1      ('baz', 38) -> ("foo", 29)  -> None
 2      ("bar", 99)  -> None
 3      LL[self.head = Node(self.key = "fox", self.value = 101) -> Node("tree", 209) -> None]
 4      -> None
@@ -94,8 +121,8 @@ put("qux", 54)   # hashes to 0
 put("fox", 101)  # hashes 3
 put("tree", 209) # hashes 3
 
-get("qux")
-get("foo")
+get("qux") return 54
+get("foo") # iterate through LL find 42
 get("fred")  # hashes to 0 --> return None
 
 
@@ -114,8 +141,7 @@ delete("baz")
 ### otherwise, add a new node
 
 
-# generic ListNode and LinkedList
-
+#9 generic ListNode and LinkedList
 class ListNode:
     def __init__(self, value):
         self.value = value
